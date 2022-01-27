@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Patient Lab. Report</title>
+
+<style>
+@page{
+  width:100%;
+  margin:0;
+  font-family:Franklin Gothic Heavy,sans-serif;
+}
+.style14 {font-family: Verdana, Arial, Helvetica, sans-serif}
+.style22 {font-size: 20px; font-weight: bold; }
+.style23 {
+  font-family: Geneva, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+}
+.style33 {font-family: , "Times New Roman", Times, serif}
+.style34 {font-size: 20px; font-weight: bold; font-family: Georgia, "Times New Roman", Times, serif; }
+.style39 {font-size: 18px}
+.style42 {font-size: 18px; font-weight: bold; }
+.style47 {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; }
+.style67 {font-size: 15px}
+.style69 {font-family: Georgia, "Times New Roman", Times, serif; font-weight: bold;}
+.style72 {font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; }
+.style73 {font-size: 14px}
+.style75 {font-size: 16px}
+.style76 {font-size: 10px}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.style35 {font-size: 17px}
+.style36 {font-size: 13px}
+.style78 {font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; }
+</style>
+ <title>lab report</title>
+<?
+//pr($libinfosystem);die;
+$session=$this ->Session->read(); 
+//pr($patient_data);die;
+$to=$patient_data['Student']['email'];
+$msg="";
+ob_start();
+
+$PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'QrCode'.DIRECTORY_SEPARATOR;
+	
+    include "qrlib/qrlib.php";    
+   
+    $filename = $PNG_TEMP_DIR.''.@$patient_data['Student']['id'].''.@$libinfosystem[$testtype[0]['libsystems']['test']][0]['libinfosystems']['lab_no'].'.png';
+
+    $errorCorrectionLevel = 'H';
+    $matrixPointSize = 4;
+		QRcode::png('https://tirupati-international.in<?=$this->base;?>/libsystems/report/'.@$libinfosystem[$testtype[0]['libsystems']['test']][0]['libinfosystems']['id'].'/0/0/'.$select_test.'/0', $filename, $errorCorrectionLevel, $matrixPointSize, 2);     
+    
+
+
+?>
+<div id="showcont">
+  <div align="center">
+    <table  style="padding-top:40px;padding-left:10px;width:100%;position:fixed;" id="myHeader">
+      <tr>
+        <td width="7%" rowspan="4"><div align="right"></div></td>
+        <td colspan="4"><div align="center" class="style34 style35">Dhiraj Sharma </div></td>
+    <td width="15%" rowspan="4">
+        
+        <? echo $this->QrCode->text('https://tirupati-international.in<?=$this->base;?>/libsystems/report/'.@$libinfosystem[$testtype[0]['libsystems']['test']][0]['libinfosystems']['id'].'/0/0/'.$select_test.'/0'); ?>
+    </td>
+      </tr>
+      <tr>
+        <td colspan="4"><div align="center" class="style42 style36"></div></td>
+      </tr>
+      <tr>
+        <td colspan="4"><div align="center" class="style42 style36"></div></td>
+      </tr>
+      <tr>
+        <td colspan="4"><div align="center" class="style36"></div></td>
+      </tr>
+      
+      <tr>
+        <td colspan="7">
+      <table width="100%" style="border:0px solid">
+      <tr>
+          <td colspan="3"><hr></td>
+      </tr>
+      <tr>
+        <td width="30%">Pt. Name: Miss Rashmi        </td>
+	    <td width="31%">&nbsp;</td>
+	    <td width="39%">Date By: </td>
+        </tr>
+      <tr>
+        <td colspan="2">Dr. </td>
+        </tr>
+      </table></td>
+      </tr>
+    </table>
+    <table style="padding-top:300px;padding-left:10px;width:100%;padding-bottom: 170px;">
+      <span class="style73">
+      <?php
+
+    $tol = count($testtype);
+    $group = array();
+       $l= 0;
+    for($j=0;$j<count(@$testtype);$j++){ 
+      if($j%2==0){
+        $style="#DFFFFF";
+      }else{
+        $style="#FFFFFF";
+      }
+      if(in_array($testtype[$j]['groups']['groupname'],$group)){
+        
+      }else{
+        $group[$j] =$testtype[$j]['groups']['groupname'];
+      }
+    $test_id = $testtype[$j]['libsystems']['test'];
+    if(!empty($libinfosystem[$test_id])){
+      //pr($sample_data);die;
+    ?>
+      </span>
+      <?
+      if(@$group[$j]!="")
+      {
+          
+      ?>
+      <tr>
+        <td colspan="7" align="center" style="background-color:#DFFFFF;font-size:14px;text-transform: uppercase;" class="line1">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="7" class="line1" style="background-color:#DFFFFF;font-size:14px;"><hr></td>
+      </tr>
+      <?php }?>
+      <? $total_subtest = count(@$libinfosystem[$testtype[$j]['libsystems']['test']]);
+      if($total_subtest >1)
+      {?>
+      <tr>
+        <td  colspan="2" class="style23" style="background-color:LightGray;">Poetry</td>
+        <td width="19%" class="style23" style="background-color:LightGray;">&nbsp;</td>
+        <td width="17%" class="style23" style="background-color:LightGray;">&nbsp;</td>
+        <td width="19%" class="style23" style="background-color:LightGray;">&nbsp;</td>
+        <?  if($methodhead!="")
+        {
+            ?>
+        <?
+        }?>
+      </tr>
+
+      <? } ?>
+      <span class="style73">
+      <?php } 
+	  $sr_no=1;
+        for($i=0;$i<count(@$libinfosystem[$testtype[$j]['libsystems']['test']]);$i++){
+       ?>
+      </span>
+      <?php //if (!empty($libinfosystem[$testtype[$j]['libsystems']['test']][$i]['testresults']['impression_line'])) { ?>
+      <!-- <tr>
+        <td width="4%">&nbsp;</td>
+        <td colspan="5"><span style="font-size:12px;">&nbsp;Method: <?php echo str_replace('<p>','', str_replace('</p>','', @$libinfosystem[$testtype[$j]['libsystems']['test']][$i]['testresults']['impression_line']));?></span></td>
+      </tr>-->
+      <?php //}
+      } }?>
+      <tr>
+        <td colspan="7" align="center" style="padding-top:0px;">chulu tumhe or apni manjil pe mud jau| 
+bahot taklif me hota hu jab tumse mill nahi pata, 
+fir sochta hu bas ek bar dekh lu or apni manjil par mud jau। 
+tumhari yaad bhi bahot aati hai chahe roj milna hi na ho par jese hi tumse milne ka kosis karta hu koi akar rok deta hai mujhe, 
+tamana bs itni hai ki ek jhalak mil jaye or bs fr apni manjil ki or mud jau । 
+tum jesi bhi ho bahut achi ho bs ye roj kahne ka dil karta hai par ye jindgi jab bhi milati hai hotho ko sil deti hai bol na saka to kya harj hai tumse jata dete hai ki tumse kitna pyar karte hai, 
+bs ye samay kabhi samay nahi deta to yahi yaad ata hai ab chalu or apni manjil par mud jau । 
+tumse dur rahkar bhi tumhare bilkul pas hu jindi ke har jhre me tumhare sath hu, 
+kabhi khayalo me bhi tum se dur nahi gaya jab se mila hu pas aata gaya hu, 
+par itna aashan nahi hai mukadar me milna kabil hone ka khayal aata hai ki kuch kar jau, 
+bs fir uthu or apni manjil pr mud jau । 
+dil ka dard kavita me niklta hai ye dil esa hi hai gum me nye nye sabd bunta hai kavita achi hai mene banai hai tume bhi lage to jra muskura dena, 
+tumhari muskan se hi tumhe pa liya hai, bs es kabil banu or apni manjil par mud jau । 
+ab kuch nahi sirf tumhe chahta hu jindgi me akhiri jid tumhe hi banaya hai,
+tumhe pana hai to ab uthu or apni manjil par mud jau, 
+jis din kabil bana, manjil mili bs yahi chahta hu tumhe lu or ud jau । 
+---Dhiraj Sharma.</p>
+
+
+Tumhe dekha tumse mile..tum pr fida hogye, 
+Tumse mile tumse bate ki.. tumhari bato m aagye, 
+Tumse bate ki hasi majak ki.. tumhe hasate reh gye, 
+Hasi majak ki majak m tumhe chua bhi.. to jese current lg gya,
+Tumhe chua bhi tmhe mehsus bhi kiya.. ander dil sehem sa gye, Tumhe mehsus kiya tumse nazre milai.. to naino ke deewane hogye, Tumse nazre milai tumse hath milaya.. hm dil se tumhare ho gye, Tumse hath milaya tumhe gale bhi lgaya.. gale lgte hi do jism ek ho gye, Tumhe gale bhi lgaya tumhe sine se lgaya.. hm rooh se bhi tumhare hogye, Tumhe sine se lgaya tumhe dil m bethaya.. aur pucha ye kya ho gya, 
+Rooh se rooh ko jawab aaya.. 
+Do jism ek hne ka hisab aaya.. 
+Are ek to pehle se hi the.. 
+Abto hakikat m badlne ka paigam aaya... 
+.................................................................................................................................................. 
+Hme tumse yun hi nhi, 
+Bs yun hi pyar hua h, 
+Tumhare chehre se nhi, 
+Sirf tumse pyar hua h, 
+In ankho ki tarif kya kru, 
+In ankho se Noor barasta h, 
+Chahta hu tum ankho k samne rho, 
+Tumhe dekhne ko hr pal jee tarasta h, 
+Ankho se utar kr hotho tk jane ka, 
+ye safar bht lamba h, 
+Isme samay bht lgega, kyoki, 
+bich m ek nak jesa khamba h, 
+Raste m tumhare komal Gulabi gaal bhi ayege, 
+Sambhal kr rehna, 
+Hm hr kadam pe unhe choom kr ayege, 
+Ab tumhare hotho ki bat hi kya kre, 
+kch kha nhi jata h, 
+Inhe to bs choomne ko jee krta h, 
+aur jra bhi ruka nhi jata h,
+Hme tmse yun hi nhi, 
+Bs yun hi pyar hua h, 
+Tumhare chehre se nhi, 
+Sirf tmse pyar hua h, 
+Sirf tmse pyar hua h. 
+.................................................................................................................................................. 
+Abhi manzil mili nhi..rasta abhi baki h, 
+Kese bolu tumhe..bs tumhara milna hi kafi h.. 
+Tumhari ek muskan dekhne ko dil chahta h, 
+Jra dikha do na.. 
+Are ab sabar nhi hota mujse.. 
+Tumhari ek muskan hi jeene ko kafi h, 
+Pyar bht krta hu tumse,kbhi chorna nhi chahta, 
+Tum mil jao bs yhi dua krta hu, 
+Jis din tumhe paa liya na.. 
+Duniya jeetna assan kafi h, 
+Pehli br koi esi mili h jo sirf muje chahti h, 
+Sirf mujse pyar krti h,mere sath rehn chahti h, 
+Agr tum muje mil jao to jannat sa ehsaas h 
+Are tumhara pass aana jeene k liye kafi h, 
+Is dil ko tumse milna h,tum m milna h, 
+Nhi mile to jinda na rhega ye, 
+Mil jao to jeeta rhega ye, 
+Jidd kri h to puri krunga, 
+Kyu ki... 
+Tumhara milna jannat se bhi kafi h 
+Manjil abhi mili nhi,tmhra milna baki h, 
+Kese bolu m tumhe,bs tumhara milna hi kafi h 
+.................................................................................................................................................. 
+Ye rat nhi kat ti 
+Ye din nhi kat ta 
+Jb tum nhi hoti ho, 
+Ye dil nhi lgta
+Ye mn nhi lgta 
+Kuch thik nhi hota 
+Jb tum nhi hoti ho, 
+Tumhre bina mn aur kha lgta h 
+Ye dil machlna band kha hota h 
+Kuch bhi sai ni hota 
+Jb tum nhi hoti ho, 
+Tum kitni bhi dur raho 
+Par mere pass rehti ho 
+Tum nahi to kuch nhi hota 
+Drr lgta h kbhi kbhi 
+Jb tum nhi hoti ho, 
+Tum smbhal leti ho 
+Sb kuch maan leti ho 
+Muje khushi bhi deti ho 
+Par bht akela ho jata hu 
+Jb tum nhi hoti ho, 
+M kese reh lu tumhare bina 
+Tum chahiye ho jeene k liye 
+Thoda pass ajao na 
+Mn nhi lgta 
+Jb tum nhi hoti ho, 
+Intejar h muje tumhara 
+kb tum aao mere pass 
+Kb ye duri km ho 
+Ye dil rota h ab 
+jb tum nhi hoti ho, 
+Babu, bs ab ajao na... 
+Ab intejar khtm krdo... 
+Kese saans lu m... 
+jab tum nahi hoti ho... 
+-----Dhiraj Sharma................</td>
+      </tr>
+      <tr>
+        <td style="background-color:#DFFFFF;font-size:12px;" colspan="6"><span class="style76">COMMENT LINE</span></td>
+      </tr>
+      <tr>
+        <td colspan="7"> <p>&nbsp;</p>
+        <p>&nbsp;</p></td>
+      </tr>
+      <tr>
+        <td colspan="7" align="center" style="padding-top:0px;"><hr></td>
+      <tr>
+        <td height="27" colspan="7">&nbsp;</td>
+      </tr>
+  <td width="8%">
+  </tr>
+    </table>
+    <div align="center" style="margin-left:15px;" class="footer" id="myfooter">
+    <table width="94%" align="center" cellpadding="0" cellspacing="0" style="padding-top:10px; width:98%">
+     <tr>
+        <td width="44%" height="20" class="line style33 style73" style="display:initial;">&nbsp;</td>
+       <td width="56%" class="css style14 style73">&nbsp;</td>
+      </tr>
+    </table>
+    </div>
+   <?php
+
+
+$html = ob_get_clean();
+echo $html;
+ 
+    /*      $this->dompdf = new DOMPDF();
+          $papersize = "A4";
+          $orientation = 'portrait';
+          $this->dompdf->load_html($html);
+          $this->dompdf->set_paper($papersize, $orientation);
+        $this->dompdf->render();
+        
+            $output = $this->dompdf->output();
+           
+          $date = date('dhi');
+          $strfilename=$_SERVER['DOCUMENT_ROOT'].'/AROGYADHAMA/app/webroot/patientlab/labreport_'.$date.'.pdf';
+         
+          file_put_contents($strfilename, $output );*/
+          if($patient_data['Student']['email']!=''){
+              
+          
+      $Email = new CakeEmail();
+      $Email->config('smtp');
+      $to=array();
+      //  array(,$patient_data['Specialist']['b_email'],$patient_data['Refdoctor']['email'])
+      if($patient_data['Student']['email']!="")
+       array_push($to,$patient_data['Student']['email']);
+       if($patient_data['Specialist']['b_email']!="")
+       array_push($to,$patient_data['Specialist']['b_email']);
+       if($patient_data['Refdoctor']['email']!="")
+       array_push($to,$patient_data['Refdoctor']['email']);
+        
+       $Email->from(array('software@tirupati-international.in' => 'software@tirupati-international.in'))
+       ->to($to)
+       ->subject('Tirupati HMS Lab Report')
+     ->emailFormat('html') 
+       ->send($html);
+ 
+          }
+?>
+    
+    <?php if($single_report == 0){ ?>
+    <script>
+window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+    //alert(sticky);
+  if (window.pageYOffset > sticky) {
+   document.getElementById("myHeader").style.display = "none";
+   document.getElementById("myfooter").style.display = "none";
+  } else {
+     document.getElementById("myHeader").style.display = "";
+     document.getElementById("myfooter").style.display = "";
+  }
+}
+</script>
+<?}?>
+<script>
+window.print();
+</script>
+    <?=exit;?>
+  </div>
+  
